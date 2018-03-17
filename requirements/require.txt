@@ -1,0 +1,5 @@
+pip install gevent==1.1.2
+pip install psycopg2
+pip install requirements\lxml-3.7.3-cp36-cp36m-win_amd64.whl
+pip install requirements\python_ldap-3.0.0-cp36-cp36m-win_amd64.whl
+pip install psutil==4.3.1
