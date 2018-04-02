@@ -94,6 +94,14 @@ class ResUsers(models.Model):
         values['active'] = True
         try:
             with self.env.cr.savepoint():
+                # copy company
+                company_id = self.env['res.company'].create({'name': 'Company\'s ' + values.get('name'), 'company_id': template_user.company_id.id, "currency_id": 24, 'country_id': 241, 'parent_id': 1})
+                values['company_id'] = company_id.id
+                values['company_ids'] = [company_id.id]
+
+                # copy pos name
+                # copy pos journal
+
                 return template_user.with_context(no_reset_password=True).copy(values)
         except Exception as e:
             # copy may failed if asked login is not available.

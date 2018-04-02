@@ -4090,7 +4090,7 @@ msgstr "Xác nhận"
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.view_pos_session_form
 msgid "Validate Closing & Post Entries"
-msgstr ""
+msgstr "Xác nhận và kết ca"
 
 #. module: point_of_sale
 #: model:product.product,name:point_of_sale.partner_product_6
