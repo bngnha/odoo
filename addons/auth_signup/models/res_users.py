@@ -85,7 +85,7 @@ class ResUsers(models.Model):
         # check that uninvited users may sign up
         if 'partner_id' not in values:
             if not literal_eval(IrConfigParam.get_param('auth_signup.allow_uninvited', 'False')):
-                raise SignupError('Signup is not allowed for uninvited users')
+                raise SignupError(_('Signup is not allowed for uninvited users'))
 
         assert values.get('login'), "Signup: no login given for new user"
         assert values.get('partner_id') or values.get('name'), "Signup: no name or partner given for new user"
@@ -94,8 +94,16 @@ class ResUsers(models.Model):
         values['active'] = True
         try:
             with self.env.cr.savepoint():
+                # copy company
+                company_id = self.env['res.company'].create({'name': 'Company\'s ' + values.get('name'), 'company_id': template_user.company_id.id, "currency_id": 24, 'country_id': 241, 'parent_id': 1})
+                values['company_id'] = company_id.id
+                values['company_ids'] = [company_id.id]
+
+                # copy pos name
+                # copy pos journal
+
                 return template_user.with_context(no_reset_password=True).copy(values)
-        except Exception, e:
+        except Exception as e:
             # copy may failed if asked login is not available.
             raise SignupError(ustr(e))
 
